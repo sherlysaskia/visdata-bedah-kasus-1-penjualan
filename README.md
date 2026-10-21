@@ -1,4 +1,5 @@
 # 📊 Dashboard Operasional Penjualan
+🔗 **Demo:** https://dashboard-penjualan-sherly.streamlit.app
 
 **Bedah Kasus 1 · Visualisasi Data**  
 Sherly Saskia Rani · NIM 241051002
