@@ -1,0 +1,169 @@
+
+======================================================================
+1. KUALITAS DATA
+======================================================================
+Produk                       str
+Kategori                     str
+Harga (Rp)                 int64
+Jumlah Terjual             int64
+Tanggal           datetime64[us]
+Pendapatan                 int64
+Bulan                        str
+dtype: object 
+Missing:
+ Produk            0
+Kategori          0
+Harga (Rp)        0
+Jumlah Terjual    0
+Tanggal           0
+Pendapatan        0
+Bulan             0
+dtype: int64 
+Duplikat: 0
+
+======================================================================
+2. STATISTIK DESKRIPTIF (numerik)
+======================================================================
+                 count         mean  ...  skewness  kurtosis
+Harga (Rp)      1000.0    2033656.5  ...      1.55      1.18
+Jumlah Terjual  1000.0        112.6  ...      2.02      3.48
+Pendapatan      1000.0  110104216.0  ...      1.48      0.90
+
+[3 rows x 10 columns]
+
+======================================================================
+3. KATEGORIK (Nominal): frekuensi & proporsi
+======================================================================
+              n     %
+Kategori             
+Pendidikan  426  42.6
+Elektronik  403  40.3
+Fashion     171  17.1 
+
+               n     %
+Produk                
+Buku         157  15.7
+Laptop       153  15.3
+Alat Tulis   119  11.9
+Smartphone    94   9.4
+Kemeja        93   9.3
+Headphone     90   9.0
+Kalkulator    78   7.8
+Sepatu        78   7.8
+Tas Sekolah   72   7.2
+Monitor       66   6.6 
+
+
+======================================================================
+4. PENDAPATAN PER KATEGORI & PRODUK
+======================================================================
+            transaksi   unit    pendapatan  harga_rata2  kontribusi_%
+Kategori                                                             
+Elektronik        403  25147  101040966500    4789081.0          92.0
+Pendidikan        426  74383    4715719000      91608.0           4.0
+Fashion           171  13068    4347530500     377965.0           4.0
+
+Pareto produk (kumulatif %):
+ Produk
+Laptop          56.0
+Smartphone      80.7
+Monitor         86.8
+Headphone       91.8
+Sepatu          94.1
+Kemeja          95.7
+Buku            97.1
+Tas Sekolah     98.3
+Alat Tulis      99.2
+Kalkulator     100.0
+Name: Pendapatan, dtype: float64
+
+======================================================================
+5. TREN WAKTU (Interval)
+======================================================================
+          pendapatan   unit  MoM_%
+Bulan                             
+2024-01  10290927000  11078    NaN
+2024-02   7195114500   6387  -30.1
+2024-03   7154645000   7040   -0.6
+2024-04   9847532500   8880   37.6
+2024-05   5620656500   9161  -42.9
+2024-06   9353521500   8365   66.4
+2024-07  11108159500  12800   18.8
+2024-08  12826112500  13235   15.5
+2024-09   6844312500   6405  -46.6
+2024-10   6679524500   6370   -2.4
+2024-11  10618211500   9435   59.0
+2024-12  12565498500  13442   18.3
+Bulan puncak: 2024-08 Rp12.826.112.500
+
+Rata-rata pendapatan/transaksi per hari:
+ Tanggal
+Friday        94298143.0
+Monday        93319545.0
+Saturday     123650145.0
+Sunday       100792680.0
+Thursday     118406598.0
+Tuesday      135040911.0
+Wednesday    103080734.0
+Name: Pendapatan, dtype: float64
+
+======================================================================
+6. DISTRIBUSI & NORMALITAS
+======================================================================
+Harga (Rp): Shapiro p=7.376e-30 -> tidak normal; skew=1.55
+Jumlah Terjual: Shapiro p=2.696e-28 -> tidak normal; skew=2.02
+Harga setelah log: skew = 0.22
+
+======================================================================
+7. KORELASI
+======================================================================
+Pearson :
+                 Harga (Rp)  Jumlah Terjual  Pendapatan
+Harga (Rp)            1.00           -0.43        0.96
+Jumlah Terjual       -0.43            1.00       -0.41
+Pendapatan            0.96           -0.41        1.00
+
+Spearman Harga vs Jumlah: rho=-0.87, p=6.31e-308
+
+Spearman Harga vs Jumlah per produk:
+  Alat Tulis   rho=-0.43
+  Buku         rho=-0.49
+  Headphone    rho=-0.73
+  Kalkulator   rho=-0.29
+  Kemeja       rho=-0.46
+  Laptop       rho=-0.16
+  Monitor      rho=-0.38
+  Sepatu       rho=-0.50
+  Smartphone   rho=-0.50
+  Tas Sekolah  rho=-0.32
+
+======================================================================
+8. UJI HIPOTESIS ANTAR KATEGORI
+======================================================================
+Kruskal-Wallis Jumlah Terjual ~ Kategori: H=531.7, p=3.52e-116
+Kruskal-Wallis Pendapatan ~ Kategori   : H=821.7, p=3.76e-179
+
+======================================================================
+9. OUTLIER (IQR) per produk
+======================================================================
+Produk
+Alat Tulis     2
+Buku           1
+Headphone      6
+Kalkulator     0
+Kemeja         0
+Laptop         2
+Monitor        1
+Sepatu         2
+Smartphone     1
+Tas Sekolah    1
+Name: outlier_harga, dtype: int64
+
+======================================================================
+10. INSIGHT OTOMATIS
+======================================================================
+- Total pendapatan Rp110.104.216.000 dari 112,598 unit.
+- Kategori terbesar: Elektronik (91.8% pendapatan).
+- 2 produk menyumbang ~80% pendapatan (prinsip Pareto).
+- Produk paling laris (unit): Alat Tulis.
+- Harga miring ke kanan (skew 1.55) -> gunakan median/log, bukan hanya mean.
